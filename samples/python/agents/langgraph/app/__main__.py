@@ -41,6 +41,8 @@ def main(host, port):
                 raise MissingAPIKeyError(
                     'GOOGLE_API_KEY environment variable not set.'
                 )
+        elif os.getenv('model_source') == 'ollama':
+            pass
         else:
             if not os.getenv('TOOL_LLM_URL'):
                 raise MissingAPIKeyError(

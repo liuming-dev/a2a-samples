@@ -11,6 +11,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
+from langchain_ollama import ChatOllama
 from pydantic import BaseModel
 
 
@@ -80,6 +81,12 @@ class CurrencyAgent:
         model_source = os.getenv('model_source', 'google')
         if model_source == 'google':
             self.model = ChatGoogleGenerativeAI(model='gemini-2.0-flash')
+        elif model_source == 'ollama':
+            self.model = ChatOllama(
+                base_url=os.getenv('OLLAMA_BASE_URL', 'http://localhost:11434'),
+                model=os.getenv('OLLAMA_MODEL', 'gemma3:12b'),
+                temperature=0
+            )
         else:
             self.model = ChatOpenAI(
                 model=os.getenv('TOOL_LLM_NAME'),
